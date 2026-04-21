@@ -28,12 +28,12 @@ class Or(Formula):
 
 
 @dataclass(frozen=True)
-class Implies(Formula):
+class Imp(Formula):
     left: Formula
     right: Formula
 
 @dataclass(frozen=True)
-class Biconditional(Formula):
+class Iff(Formula):
     left: Formula
     right: Formula
 
@@ -46,7 +46,7 @@ def to_string(f):
         return f"({to_string(f.left)} ∧ {to_string(f.right)})"
     if isinstance(f, Or):
         return f"({to_string(f.left)} ∨ {to_string(f.right)})"
-    if isinstance(f, Implies):
+    if isinstance(f, Imp):
         return f"({to_string(f.left)} → {to_string(f.right)})"
-    if isinstance(f, Biconditional):
+    if isinstance(f, Iff):
         return f"({to_string(f.left)} ↔ {to_string(f.right)})"
