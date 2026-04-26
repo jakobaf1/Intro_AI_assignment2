@@ -48,4 +48,11 @@ def resolution(clauses):
             return False # Ingen nye clauses og ingen tomme clauses
         clauses += new
 
+def entails(belief_base, formula):
+    # BB entailer formular iff BB U {non(formular)} er unsatisfiable
+    formulas = list(belief_base) + [Not(formula)]
+    cnf_formulas = [to_cnf(f) for f in formulas]
+    clauses = extract_clauses(cnf_formulas)
+    return resolution(clauses)
+
 
