@@ -2,6 +2,8 @@ from enum import Enum, auto
 from dataclasses import dataclass, field
 from typing import Optional
 
+from core.formula import *
+
 
 # First we define the types of tokens we can get
 class TokenType(Enum):
@@ -276,4 +278,43 @@ class Parser:
 # Calls upon the lexer to tokenize and then parses the input
 def parse_formula(text: str) -> Node:
     tokens = Lexer(text).tokenize()
-    return Parser(tokens).parse()
+    node = Parser(tokens).parse()
+    return node_to_formula(node)     # Node → Formula
+
+def ast_to_prefix(node: Node) -> str:
+    match node.type:
+        case NodeType.ATOM:
+            return node.name
+        case NodeType.TRUE:
+            return "TRUE"
+        case NodeType.FALSE:
+            return "FALSE"
+        case NodeType.NOT:
+            return f"NOT({ast_to_prefix(node.left)})"
+        case NodeType.AND:
+            return f"AND({ast_to_prefix(node.left)}, {ast_to_prefix(node.right)})"
+        case NodeType.OR:
+            return f"OR({ast_to_prefix(node.left)}, {ast_to_prefix(node.right)})"
+        case NodeType.IMP:
+            return f"IMPLIES({ast_to_prefix(node.left)}, {ast_to_prefix(node.right)})"
+        case NodeType.IFF:
+            return f"IFF({ast_to_prefix(node.left)}, {ast_to_prefix(node.right)})"
+        
+def node_to_formula(node: Node) -> Formula:
+    match node.type:
+        case NodeType.ATOM:
+            return Var(node.name)
+        case NodeType.TRUE:
+            return Var("True")
+        case NodeType.FALSE:
+            return Var("False")
+        case NodeType.NOT:
+            return Not(node_to_formula(node.left))
+        case NodeType.AND:
+            return And(node_to_formula(node.left), node_to_formula(node.right))
+        case NodeType.OR:
+            return Or(node_to_formula(node.left), node_to_formula(node.right))
+        case NodeType.IMP:
+            return Imp(node_to_formula(node.left), node_to_formula(node.right))
+        case NodeType.IFF:
+            return Iff(node_to_formula(node.left), node_to_formula(node.right))

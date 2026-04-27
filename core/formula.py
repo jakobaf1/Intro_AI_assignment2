@@ -3,8 +3,7 @@ from dataclasses import dataclass
 # Base class
 class Formula:
     pass
-
-
+    
 @dataclass(frozen=True)
 class Var(Formula):
     name: str
