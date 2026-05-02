@@ -31,17 +31,36 @@ if __name__ == "__main__":
     while True:
         try:
             user_input = input("> ")
-            user_input = user_input.strip().split(",")
 
-            formula = parse_formula(user_input[0].strip())
-            priority = int(user_input[1].strip()) if len(user_input) == 2 else 0
-            
-            if entails(belief_base, formula):
-                belief_base = expand(belief_base, formula, priority=priority)
+            if user_input.startswith("1"):
+                revision_success_consistency_test()
+            elif user_input.startswith("2"):
+                revision_vacuity_test()
+            elif user_input.startswith("3"):
+                revision_inclusion_test()
+            elif user_input.startswith("4"):
+                revision_extensionality_test()
+            elif user_input.startswith("5"):
+                contraction_test_vacuity()
+            elif user_input.startswith("6"):
+                contraction_test_success()
+            elif user_input.startswith("7"):
+                contraction_test_priority()
+            elif user_input.startswith("8"):
+                contraction_test_extensionality()
+            # elif user_input.startswith("9"):
+            #     contraction_test_recovery()
             else:
-                belief_base = revise(belief_base, formula, priority=priority)
+                user_input = user_input.strip().split(",")
+                formula = parse_formula(user_input[0].strip())
+                priority = int(user_input[1].strip()) if len(user_input) == 2 else 0
+                
+                if entails(belief_base, formula):
+                    belief_base = expand(belief_base, formula, priority=priority)
+                else:
+                    belief_base = revise(belief_base, formula, priority=priority)
 
-            print(f"The belief base has been updated to: {belief_base.pretty_print_belief_base()}")
+                print(f"The belief base has been updated to: {belief_base.pretty_print_belief_base()}")
 
         except KeyboardInterrupt:
             print("\nExiting.")
