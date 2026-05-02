@@ -21,7 +21,7 @@ if __name__ == "__main__":
     print()
     print("Iteration (højest prioritet først):")
     for f in bb:
-        print(f"  {to_string(f)}")
+        print(f"  {formula_to_string(f)}")
     print()
  
     # Test fjernelse

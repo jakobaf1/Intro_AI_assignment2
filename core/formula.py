@@ -36,16 +36,16 @@ class Iff(Formula):
     left: Formula
     right: Formula
 
-def to_string(f):
+def formula_to_string(f):
     if isinstance(f, Var):
         return f.name
     if isinstance(f, Not):
-        return f"¬{to_string(f.operand)}"
+        return f"¬{formula_to_string(f.operand)}"
     if isinstance(f, And):
-        return f"({to_string(f.left)} ∧ {to_string(f.right)})"
+        return f"({formula_to_string(f.left)} ∧ {formula_to_string(f.right)})"
     if isinstance(f, Or):
-        return f"({to_string(f.left)} ∨ {to_string(f.right)})"
+        return f"({formula_to_string(f.left)} ∨ {formula_to_string(f.right)})"
     if isinstance(f, Imp):
-        return f"({to_string(f.left)} → {to_string(f.right)})"
+        return f"({formula_to_string(f.left)} → {formula_to_string(f.right)})"
     if isinstance(f, Iff):
-        return f"({to_string(f.left)} ↔ {to_string(f.right)})"
+        return f"({formula_to_string(f.left)} ↔ {formula_to_string(f.right)})"

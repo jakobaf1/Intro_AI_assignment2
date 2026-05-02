@@ -11,7 +11,7 @@ r = Var("r")
 clause = Or(Not(r), p)
 assert extract_literals(clause) == {Not(r), p}, "extract_literals fejlede"
 print("extract_literals OK")
-print({to_string(f) for f in extract_literals(clause)})
+print({formula_to_string(f) for f in extract_literals(clause)})
 
 # Test extract_singles
 # (¬r ∨ p) ∧ (¬p ∨ q)  →  [{¬r, p}, {¬p, q}]

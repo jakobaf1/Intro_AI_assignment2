@@ -1,21 +1,34 @@
 from core.formula import *
 from core.cnf import *
 from utils.parser import *
+from revision.belief_base import *
+from entailment.resolution import *
+from revision.contraction import *
+from revision.expansion import *
+from revision.revision import *
 
-print("Enter formulas to update the belief base. If finished, enter an empty string to end the program")
-while True:
-    formula_str = input("Enter formula: ")
+if __name__ == "__main__":
+    print("Enter the formula you would like to enter the belief base:")
+    print("\tYou can assign a priority to the formula, by typing 'formula, priority', where priority is an integer")
+    print("Press ctrl + c to exit program.")
 
-    # Exit
-    if formula_str == "":
-        break
-    
-    # Parse input from str to Formula
-    formula = parse_formula(formula_str)
-    print(f"translated {to_string(formula)} into: {formula}")
-    
-    # converting to CNF:
-    cnf = to_cnf(formula)
-    print(f"CNF format: {to_string(cnf)}")
+    belief_base = BeliefBase()
 
-    
+    while True:
+        try:
+            user_input = input("> ")
+            user_input = user_input.strip().split(",")
+
+            formula = parse_formula(user_input[0].strip())
+            priority = int(user_input[1].strip()) if len(user_input) == 2 else 0
+            
+            if entails(belief_base, formula):
+                belief_base = expand(belief_base, formula, priority=priority)
+            else:
+                belief_base = revise(belief_base, formula, priority=priority)
+
+            print(f"The belief base has been updated to: {belief_base.pretty_print_belief_base()}")
+
+        except KeyboardInterrupt:
+            print("\nExiting.")
+            break
