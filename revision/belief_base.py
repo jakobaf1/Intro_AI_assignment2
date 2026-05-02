@@ -39,6 +39,17 @@ class BeliefBase:
                 str += ", "
         str += "}"
         return str
+        
+    def pretty_print_belief_base_with_prio(self):
+        formulas = self.get_formulas()
+        str = "{"
+        for i in range(len(formulas)):
+            f, p = self._beliefs[i]
+            str += f"({formula_to_string(f)}, {p})"
+            if i != len(formulas)-1:
+                str += ", "
+        str += "}"
+        return str
     
     def __contains__(self, formula: Formula) -> bool:
         return any(f == formula for f, _ in self._beliefs)
@@ -51,7 +62,7 @@ class BeliefBase:
  
     def __str__(self) -> str:
         if not self._beliefs:
-            return "BeliefBase { tom }"
+            return "BeliefBase { }"
         sorted_beliefs = sorted(self._beliefs, key=lambda x: x[1], reverse=True)
         lines = [f"  [{p}] {formula_to_string(f)}" for f, p in sorted_beliefs]
         return "BeliefBase {\n" + "\n".join(lines) + "\n}"
