@@ -31,7 +31,7 @@ def contract(belief_base: BeliefBase, formula) -> BeliefBase:
             
             # Check if this subset no longer entails the formula
             if not entails(temp_bb, formula):
-                kept_priority = sum(p for _, p in all_beliefs if (_, p) not in to_remove)
+                kept_priority = sum(p for f, p in all_beliefs if (f, p) not in to_remove)
                 if kept_priority > best_priority:
                     best_priority = kept_priority
                     best_subset = temp_bb
