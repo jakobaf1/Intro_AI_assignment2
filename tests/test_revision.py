@@ -53,16 +53,16 @@ def revision_success_consistency_test():
 def revision_inclusion_test():
     print("=== Test - Inclusion ===")
     bb = BeliefBase()
-    bb.add(p, priority=5)
-    bb.add(Imp(p, q), priority=3)
+    bb.add(p)
+    bb.add(Imp(p, q))
     print(f"Performing revision: {bb.pretty_print_belief_base()}*¬q")
-    result = revise(bb, Not(q), priority=10)
+    result = revise(bb, Not(q))
     print(f"After: {result.pretty_print_belief_base()}")
     print(f"We see that {result.pretty_print_belief_base()} ⊆ {expand(bb,Not(q)).pretty_print_belief_base()}, which follows Inclusion")
     expanded = BeliefBase()
     for f, pri in bb._beliefs:
         expanded.add(f, priority=pri)
-    expanded.add(Not(q), priority=10)
+    expanded.add(Not(q))
 
     for formula in result:
         assert formula in expanded, f"{formula_to_string(formula)} is in K*φ but not in K+φ"
