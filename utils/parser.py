@@ -27,7 +27,7 @@ class TokenType(Enum):
 @dataclass
 class Token:
     type:  TokenType
-    value: str = ""    # only populated for ATOM tokens, otherwise it just has TokenType
+    value: str = ""
 
     def __repr__(self):
         return f"Token({self.type.name}, {self.value!r})" if self.value else f"Token({self.type.name})"
@@ -68,12 +68,11 @@ class Lexer:
     def tokenize(self) -> list[Token]:
         tokens = []
         while self.pos < len(self.text):
-            # --- skip whitespace ---
+            # skip whitespace
             if self.text[self.pos].isspace():
                 self._advance()
                 continue
 
-            # --- try multi-char operators first (order matters: <-> before ->) ---
             matched = False
             for symbol, ttype in self.SYMBOLS.items():
                 if self.text[self.pos:].startswith(symbol):
@@ -84,7 +83,6 @@ class Lexer:
             if matched:
                 continue
 
-            # --- atoms / keywords (letters + digits + underscore) ---
             if self.text[self.pos].isalpha() or self.text[self.pos] == "_":
                 start = self.pos
                 while self.pos < len(self.text) and (

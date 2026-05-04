@@ -70,8 +70,8 @@ def contraction_test_recovery():
 
     contracted_then_expanded = expand(contract(bb, q), q)
     print(f"Before: {bb.pretty_print_belief_base()}")
-    print(f"Recovery: B = (B % q) + q")
-    print(f"leads to: {bb.pretty_print_belief_base()} = {contracted_then_expanded.pretty_print_belief_base()}")
+    print(f"Recovery: B ⊆ (B % q) + q")
+    print(f"leads to: {bb.pretty_print_belief_base()} ⊆ {contracted_then_expanded.pretty_print_belief_base()}")
 
     for formula in bb:
         assert formula in contracted_then_expanded, \

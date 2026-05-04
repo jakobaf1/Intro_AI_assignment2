@@ -17,17 +17,6 @@ if __name__ == "__main__":
 
     belief_base = BeliefBase()
 
-    # revision_success_consistency_test()
-    # revision_vacuity_test()
-    # revision_inclusion_test()
-    # revision_extensionality_test()
-
-    # contraction_test_vacuity()
-    # contraction_test_success()
-    # contraction_test_priority()
-    # contraction_test_extensionality()
-    # contraction_test_recovery()
-
     while True:
         try:
             user_input = input("> ")
@@ -48,8 +37,8 @@ if __name__ == "__main__":
                 contraction_test_priority()
             elif user_input.startswith("8"):
                 contraction_test_extensionality()
-            # elif user_input.startswith("9"):
-            #     contraction_test_recovery()
+            elif user_input.startswith("9"):
+                contraction_test_recovery()
             else:
                 user_input = user_input.strip().split(",")
                 formula = parse_formula(user_input[0].strip())
